@@ -1,0 +1,51 @@
+model:
+  name: "MedSeek-8B-QLoRA-SFT"
+  base_model: "unsloth/DeepSeek-R1-Distill-Llama-8B"
+  max_seq_length: 2048
+  dtype: null
+  load_in_4bit: true
+
+training:
+  batch_size: 2
+  gradient_accumulation_steps: 4
+  warmup_steps: 5
+  max_steps: 60
+  learning_rate: 2e-4
+  optimizer: "adamw_8bit"
+  weight_decay: 0.01
+  lr_scheduler: "linear"
+  seed: 3407
+  output_dir: "experiments/MedSeek-8B-QLoRA-SFT"
+  logging_steps: 10
+  checkpoint_steps: 20
+  use_gradient_checkpointing: true
+  report_to: "none"
+
+lora:
+  r: 16
+  target_modules: [
+    "q_proj", "k_proj", "v_proj", "o_proj",
+    "gate_proj", "up_proj", "down_proj"
+  ]
+  lora_alpha: 64
+  lora_dropout: 0
+  bias: "none"
+  use_gradient_checkpointing: true
+  random_state: 3407
+  use_rslora: false
+  loftq_config: null
+
+data:
+  dataset_name: "FreedomIntelligence/medical-o1-reasoning-SFT"
+  dataset_subset: "en"
+  dataset_split: "train[:500]" 
+  dataset_columns:
+    question: "Question"
+    reasoning: "Complex_CoT"
+    answer: "Response"
+  tokenizer: "unsloth/DeepSeek-R1-Distill-Llama-8B"
+
+saving:
+  hf_format: true             
+  merged_format: true      
+  save_dir: "experiments/MedSeek-8B-QLoRA-SFT"

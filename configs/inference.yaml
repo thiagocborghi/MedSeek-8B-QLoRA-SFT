@@ -1,0 +1,11 @@
+model:
+  checkpoint: "experiments/MedSeek-8B-QLoRA-SFT"
+  tokenizer: "unsloth/DeepSeek-R1-Distill-Llama-8B"
+
+inference:
+  max_length: 1200
+  temperature: 0.7
+  top_p: 0.9
+  top_k: 50
+  batch_size: 1
+  device: "cuda"
