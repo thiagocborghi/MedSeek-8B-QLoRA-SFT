@@ -7,8 +7,9 @@ with open("configs/training.yaml", "r") as f:
 
 with open("configs/prompts.yaml", "r") as f:
     prompts = yaml.safe_load(f)
-train_prompt_style = prompts["train_prompt"]
 
+
+train_prompt_template = prompts["train_prompt_template"]
 
 def load_medical_dataset():        
     dataset = load_dataset(
@@ -24,7 +25,7 @@ def load_medical_dataset():
             examples[config["data"]["dataset_columns"]["reasoning"]],
             examples[config["data"]["dataset_columns"]["answer"]]
         ):
-            text = train_prompt_style.format(q, cot, ans) 
+            text = train_prompt_template.format(q, cot, ans) 
             formatted_texts.append(text)
 
         return {"text": formatted_texts}
