@@ -13,7 +13,7 @@ def save_model(model, tokenizer):
     os.makedirs(save_path, exist_ok=True)
 
     if config["saving"]["hf_format"]:
-        logger.info(f"Saving model in Hugging Face format: {save_path}")
+        logger.info(f"Saving model HF format: {save_path}")
         model.save_pretrained(save_path)
         tokenizer.save_pretrained(save_path)
 
